@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <input type="text" placeholder="Enter User Name" id="userName">
+    <input type="password" placeholder="Enter Password" id="password">
+    <input type="button" value="Search Database" onclick="searchDatabase()">
+
+    <div id="result">
+
+    </div>
+
+    <script>
+        function searchDatabase() {
+            userName = document.getElementById("userName").value
+            password = document.getElementById("password").value
+
+            data = {
+                userName: userName,
+                password: password
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/SQL_Injection/AuthenticationServlet?action=LoginServlet',
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                traditional: true,
+                success: function(jsonObj) {
+                    statusJson = jsonObj[0]
+                    dataJson = jsonObj[1]
+                    var strResJSON = JSON.stringify(dataJson);
+                    alert(strResJSON)
+                },
+                error: function() {
+                    alert("Failure")
+                }
+            });
+
+
+        }
+    </script>
+</body>
+
+</html>
